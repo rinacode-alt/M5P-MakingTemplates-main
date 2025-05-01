@@ -1,12 +1,127 @@
-{% extends 'MyInventoryApp/base.html' %}
+{% extends 'MyInventoryApp/base.html' %} {% load static %} {% block title %}Add
+Water Bottle{% endblock %} {% block content %}
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light">
+          <h5 class="card-title mb-0">Add Bottle</h5>
+        </div>
+        <div class="card-body">
+          <form method="post" action="">
+            {% csrf_token %}
 
-{% load static %}
+            <div class="mb-3">
+              <label for="sku" class="form-label">SKU:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="sku"
+                name="sku"
+                required
+              />
+            </div>
 
-{% block title %}Add Water Bottle{% endblock %}
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="brand" class="form-label">Brand:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="brand"
+                  name="brand"
+                  required
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="cost" class="form-label">Cost:</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  class="form-control"
+                  id="cost"
+                  name="price"
+                  required
+                />
+              </div>
+            </div>
 
-{% block content %}
-   <div class="container">
-    <h2>Add Water Bottle</h2>
-    <p>This page is for adding water bottles, but the functionality is not yet implemented.</p>
-   </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="size" class="form-label">Size:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="size"
+                  name="size"
+                  required
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="mouth_size" class="form-label">Mouth Size:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="mouth_size"
+                  name="mouth_type"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="color" class="form-label">Color:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="color"
+                  name="color"
+                  required
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="supplier" class="form-label">Supplier:</label>
+                <select
+                  class="form-select"
+                  id="supplier"
+                  name="supplier"
+                  required
+                >
+                  {% for supplier in suppliers %}
+                  <option value="{{ supplier.id }}">{{ supplier.name }}</option>
+                  {% empty %}
+                  <option value="" disabled>No suppliers available</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label for="quantity" class="form-label">Quantity:</label>
+              <input
+                type="number"
+                class="form-control"
+                id="quantity"
+                name="stock"
+                style="max-width: 120px"
+                required
+              />
+            </div>
+
+            <div class="d-grid">
+              <button
+                type="submit"
+                class="btn text-white"
+                style="background-color: #6c757d"
+              >
+                Add Bottle
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

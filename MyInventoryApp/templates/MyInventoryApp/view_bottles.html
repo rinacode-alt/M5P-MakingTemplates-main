@@ -1,34 +1,40 @@
-{% extends 'MyInventoryApp/base.html' %}
-
-{% block title %}View Bottles{% endblock %}
-
-{% block content %}
-    <div class="container">
-        <h2>Water Bottles</h2>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Brand</th>
-                <th>SKU</th>
-                <th>Color</th>
-                <th>Size</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for bottle in bottles %}
-                <tr>
-                    <td>{{ bottle.brand }}</td>
-                    <td>{{ bottle.sku }}</td>
-                    <td>{{ bottle.color }}</td>
-                    <td>{{ bottle.size }}</td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="4">No water bottles available.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
+{% extends 'MyInventoryApp/base.html' %} {% block title %}My Water Bottles{% endblock %} {% block content %}
+<div class="container-fluid">
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Brand</th>
+          <th>Price</th>
+          <th>Size</th>
+          <th>Type</th>
+          <th>Color</th>
+          <th>Supplier</th>
+          <th>Stock</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for bottle in bottles %}
+        <tr {% if forloop.counter|divisibleby:2 %}class="bg-light" {% endif %}>
+          <td>{{ bottle.sku }}</td>
+          <td>{{ bottle.brand }}</td>
+          <td>{{ bottle.cost|floatformat:2 }}</td>
+          <td>{{ bottle.size }}</td>
+          <td>{{ bottle.mouthSize }}</td>
+          <td>{{ bottle.color }}</td>
+          <td>{{ bottle.suppliers.name }}</td>
+          <td>{{ bottle.currentQuantity }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="8" class="text-center">No water bottles available.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
-    </div>
+  </div>
 
+ 
+</div>
 {% endblock %}
