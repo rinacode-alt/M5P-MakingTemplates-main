@@ -33,6 +33,8 @@ header nav ul li a{
 
 .container {
     padding: 3rem;
+    display: flex;
+    place-content: center;
 }
 
 .container h2 {
