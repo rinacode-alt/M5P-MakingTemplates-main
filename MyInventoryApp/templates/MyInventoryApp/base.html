@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Water Bottle Inventory{% endblock %}</title>
     <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"
+    />
+    <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
@@ -21,52 +25,43 @@
         --dark-gray: #333333;
       }
 
-      .bg-maroon {
-        background-color: var(--brand-maroon) !important;
-      }
-      
+      html,
       body {
+        height: 100%;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
         min-height: 100vh;
         overflow-x: hidden;
         padding: 0;
         margin: 0;
       }
-      
-      .header {
-        background-color: var(--brand-maroon);
-        color: white;
-        height: var(--header-height);
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1030;
+      .content-wrapper {
+        flex: 1;
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 20px;
+        flex-direction: column;
       }
-      
-      .header h1 {
-        font-size: 1.5rem;
-        margin: 0;
+      .container-fluid {
+        flex: 1;
       }
-      
-      /* Sidebar styling */
-      .page-container {
-        display: flex;
-        padding-top: var(--header-height);
-        min-height: calc(100vh - var(--header-height));
+      .row {
+        flex: 1;
       }
-      
+      .bg-custom {
+        background-color: #590404 !important;
+      }
       .sidebar {
+        position: sticky;
+        top: 56px;
+        height: calc(100vh - 112px); /* Navbar and footer height */
+        overflow-y: auto;
         width: 220px;
         background-color: white;
         border-right: 1px solid #e5e5e5;
         padding-top: 20px;
         flex-shrink: 0;
       }
-      
       .sidebar .nav-link {
         color: var(--brand-maroon);
         font-weight: 500;
@@ -74,91 +69,84 @@
         text-decoration: none;
         display: block;
       }
-      
       .sidebar .nav-link:hover {
         background-color: rgba(110, 12, 12, 0.05);
       }
-      
-      /* Content area */
-      .main-content {
-        flex-grow: 1;
-        padding: 20px;
-        background-color: #f8f9fa;
+      .footer {
+        padding: 1rem 0;
+        color: white;
+        text-align: center;
+        background-color: var(--brand-maroon);
       }
-      
-      /* Table styling */
       .table {
         background-color: white;
         border-collapse: collapse;
       }
-      
       .table thead th {
         background-color: #212529;
         color: white;
         border: none;
       }
-      
       .table tbody tr:nth-of-type(odd) {
         background-color: rgba(0, 0, 0, 0.03);
       }
-      
-      /* Button styling */
       .btn-details {
         background-color: #333;
         color: white;
         border: none;
         padding: 4px 12px;
       }
-      
       .btn-details:hover {
         background-color: #555;
         color: white;
       }
-      
-      /* Footer */
-      .footer {
-        background-color: var(--brand-maroon);
-        color: white;
-        padding: 0.5rem 0;
-        text-align: center;
-      }
     </style>
   </head>
   <body>
-    <header class="header">
-      <h1>My Water Bottles</h1>
-
-    </header>
-
-    <div class="page-container">
-      <div class="sidebar">
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'view_bottles' %}">
-              View Bottles
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'view_suppliers' %}">
-              View Suppliers
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'add_bottle' %}">
-              Add Bottle
-            </a>
-          </li>
-        </ul>
+    <nav class="navbar navbar-dark bg-custom mb-3 sticky-top">
+      <div class="container-fluid">
+        <a class="navbar-brand mb-0" href="{% url 'view_bottles' %}">My Water Bottles</a>
+        <a href="{% url 'add_bottle' %}" class="text-white"><i class="material-icons">add</i></a>
       </div>
+    </nav>
 
-      <div class="main-content">
-        {% block content %}{% endblock %}
+    <div class="content-wrapper">
+      <div class="container-fluid">
+        <div class="row">
+          <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+            <div class="position-sticky">
+              <ul class="nav flex-column">
+                {% block sidebar %}
+                <li class="nav-item">
+                  <a class="nav-link {% if request.path == '/view_bottles/' %}active{% endif %}" href="{% url 'view_bottles' %}">
+                    View Bottles
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if request.path == '/view_suppliers/' %}active{% endif %}" href="{% url 'view_suppliers' %}">
+                    View Suppliers
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if request.path == '/add_bottle/' %}active{% endif %}" href="{% url 'add_bottle' %}">
+                    Add Bottle
+                  </a>
+                </li>
+                {% endblock %}
+              </ul>
+            </div>
+          </nav>
+
+          <main class="col-md-9 ms-sm-auto col-lg-10 px-4">
+            {% block content %}{% endblock %}
+          </main>
+        </div>
       </div>
     </div>
 
-    <footer class="footer">
+    <footer class="footer bg-custom">
       <div class="container">
-        <small>&copy; {% now "Y" %}</small>
+        <small>&copy; 2020</small>
       </div>
     </footer>
 

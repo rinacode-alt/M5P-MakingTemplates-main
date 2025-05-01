@@ -38,9 +38,12 @@ Water Bottle{% endblock %} {% block content %}
                 <input
                   type="number"
                   step="0.01"
+                  min="0"
                   class="form-control"
                   id="cost"
                   name="price"
+                  onkeydown="return event.keyCode !== 189"
+                  oninput="this.value = this.value.replace(/^-/, '')"
                   required
                 />
               </div>
@@ -104,6 +107,9 @@ Water Bottle{% endblock %} {% block content %}
                 class="form-control"
                 id="quantity"
                 name="stock"
+                min="0"
+                onkeydown="return event.keyCode !== 189"
+                oninput="this.value = this.value.replace(/^-/, '')"
                 style="max-width: 120px"
                 required
               />
@@ -124,4 +130,31 @@ Water Bottle{% endblock %} {% block content %}
     </div>
   </div>
 </div>
+
+{% block extra_js %}
+<script>
+  // Additional validation for number inputs
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get the number input elements
+    const costInput = document.getElementById('cost');
+    const quantityInput = document.getElementById('quantity');
+    
+    // Function to validate number input and prevent negative values
+    function preventNegative(event) {
+      // Get the current value
+      const value = parseFloat(event.target.value);
+      
+      // If the value is negative, reset to 0
+      if (value < 0) {
+        event.target.value = 0;
+      }
+    }
+    
+    // Add event listeners for input changes
+    costInput.addEventListener('change', preventNegative);
+    quantityInput.addEventListener('change', preventNegative);
+  });
+</script>
+{% endblock %}
+
 {% endblock %}
